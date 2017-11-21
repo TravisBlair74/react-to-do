@@ -3,7 +3,7 @@ import './App.css';
 import ToDo from './components/ToDo.js';
 
 class App extends Component {
-  constructor(props) {
+    constructor(props) {
     super(props);
     this.state = {
       todos: [
@@ -15,6 +15,12 @@ class App extends Component {
     };
   }
 
+  deleteTodo(index) {
+    const remove = this.state.todos[index];
+    const newlist = this.state.todos.filter(todo => todo !== remove);
+    this.setState({ todos: newlist });
+  }
+
   handleChange(e) {
     this.setState({ newTodoDescription: e.target.value })
   }
@@ -23,7 +29,7 @@ class App extends Component {
     e.preventDefault();
     if (!this.state.newTodoDescription) { return }
     const newTodo = { description: this.state.newTodoDescription, isCompleted: false };
-    this.setState({ todos: [...this.state.todos, newTodo], newTodoDescription: '' });    
+    this.setState({ todos: [...this.state.todos, newTodo], newTodoDescription: '' });
   }
 
   toggleComplete(index) {
@@ -38,7 +44,7 @@ class App extends Component {
       <div className="App">
         <ul>
         { this.state.todos.map( (todo, index) =>
-             <ToDo key={ index } description={ todo.description } isCompleted={ todo.isCompleted } toggleComplete={ () => this.toggleComplete(index) } />
+             <ToDo key={ index } description={ todo.description } isCompleted={ todo.isCompleted } toggleComplete={ () => this.toggleComplete(index) } deleteTodo={ () => this.deleteTodo(index) }  />
         )}
         </ul>
         <form onSubmit={ (e) => this.handleSubmit(e) }>
